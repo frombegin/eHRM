@@ -8,30 +8,41 @@ CompanyStatusChoices = (
 
 
 class Company(models.Model):
-    name = models.CharField('company name', max_length=128)
-    code = models.CharField('company code', max_length=32)
-    password = models.CharField('company password', max_length=32)
-    fullname = models.CharField('company full name', max_length=128)
-    address = models.CharField('company address', max_length=128)
-    contact_name = models.CharField('company contact name', max_length=16)
-    contact_mobile = models.CharField('company mobile name', max_length=16)
-    contact_email = models.CharField('company email name', max_length=64)
-    status = models.IntegerField('company status', choices=CompanyStatusChoices)
+    name = models.CharField('name', max_length=128)
+    code = models.CharField('code', max_length=32)
+    password = models.CharField('password', max_length=32)
+    fullname = models.CharField('full name', max_length=128)
+    address = models.CharField('address', max_length=128)
+    contact_name = models.CharField('contact name', max_length=16)
+    contact_mobile = models.CharField('contact mobile', max_length=16)
+    contact_email = models.CharField('contact email', max_length=64)
+    creation_time = models.DateTimeField('creation time', auto_created=True)
+    status = models.IntegerField('status', choices=CompanyStatusChoices)
 
     class Meta:
         app_label = 'hrm'
+        ordering = ['creation_time', '-status']
 
 
-class Plugin(models.Model):
+InstalledPluginStatusChoices = (
+    (0, 'installed'),
+    (1, 'disabled'),
+    (1, 'uninstalled'),
+)
+
+
+class InstalledPlugin(models.Model):
     company = models.ForeignKey(Company)
     installed_time = models.DateTimeField('installation time', auto_created=True)
     name = models.CharField('plugin name', max_length=32)
     description = models.TextField('plugin description')
     icon = models.ImageField('plugin icon')
-    unique_id = models.CharField('plugin unique id', max_length=32)
+    plugin_id = models.CharField('plugin id', max_length=32)
+    status = models.IntegerField('plugin status', choices=InstalledPluginStatusChoices)
 
     class Meta:
         app_label = 'hrm'
+        ordering = ['installed_time', 'status']
 
 
 class ServiceRecord(models.Model):
@@ -47,6 +58,7 @@ class Department(models.Model):
     company = models.ForeignKey(Company)
     name = models.CharField('dep name', max_length=16)
     head = models.ForeignKey('hrm.Employee', related_name='department_head')
+    parent = models.ForeignKey('self')
 
     class Meta:
         app_label = 'hrm'
