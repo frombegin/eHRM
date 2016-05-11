@@ -1,5 +1,26 @@
 from django.db import models
 
+
+# abstract models
+
+class TimeStampedModel(models.Model):
+    created_at = models.DateTimeField('creation time', auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField('update time', auto_now=True, editable=False)
+
+    class Meta:
+        abstract = True
+
+
+class TimeFramedModel(models.Model):
+    start_at = models.DateTimeField('start time', null=True, blank=True)
+    end = models.DateTimeField('end time', null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+# core models
+
 CompanyStatusChoices = (
     (0, 'enabled'),
     (1, 'disabled'),
