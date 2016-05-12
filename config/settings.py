@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'hrm',
+    'rest_framework',
+
+    'hrm.core',
 ]
 
 MIDDLEWARE_CLASSES = [
