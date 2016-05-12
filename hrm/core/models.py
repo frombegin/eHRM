@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save, post_delete
+from django.db.models import signals
 from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 
@@ -157,19 +157,19 @@ class EmployeeCert(models.Model):
         verbose_name_plural = "employee certificates"
 
 
-@receiver(post_save, sender=Company, dispatch_uid="add_account")
+@receiver(signal=signals.post_save, sender=Company, dispatch_uid="add_account")
 def add_account(sender, instance, **kwargs):
     Account.objects.create(code=instance.code,
                            work_no='',  # '' means company supervisor
                            password=make_password('123456'))
 
 
-@receiver(post_delete, sender=Company, dispatch_uid="del_account")
+@receiver(signal=signals.post_delete, sender=Company, dispatch_uid="del_account")
 def del_account(sender, instance, **kwargs):
     Account.objects.filter(code=instance.code).delete()
 
 
-@receiver(post_save, sender=Employee, dispatch_uid="add_sub_account")
+@receiver(signal=signals.post_save, sender=Employee, dispatch_uid="add_sub_account")
 def add_sub_account(sender, instance, created, **kwargs):
     if created:
         Account.objects.create(code=instance.company.code,
@@ -177,7 +177,7 @@ def add_sub_account(sender, instance, created, **kwargs):
                                password=make_password('123456'))
 
 
-@receiver(post_delete, sender=Employee, dispatch_uid="del_sub_account")
+@receiver(signal=signals.post_delete, sender=Employee, dispatch_uid="del_sub_account")
 def del_sub_account(sender, instance, **kwargs):
     Account.objects.filter(code=instance.company.code,
                            work_no=instance.work_no).delete()
