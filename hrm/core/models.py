@@ -14,6 +14,14 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+class DateFramedModel(models.Model):
+    start_on = models.DateField('start date')
+    end_on = models.DateField('end date')
+
+    class Meta:
+        abstract = True
+
+
 class TimeFramedModel(models.Model):
     start_at = models.DateTimeField('start time', null=True, blank=True)
     end_at = models.DateTimeField('end time', null=True, blank=True)
@@ -72,10 +80,9 @@ class InstalledPlugin(models.Model):
         ordering = ['installed_time', 'status']
 
 
-class ServiceRecord(models.Model):
+class ServiceRecord(DateFramedModel):
     company = models.ForeignKey(Company)
-    start_time = models.DateTimeField('start time')
-    end_time = models.DateTimeField('end time')
+    remark = models.TextField(max_length=1024, verbose_name='remark of the service')
 
     class Meta:
         verbose_name = "service record"

@@ -51,8 +51,8 @@ class ServiceRecordAdminForm(forms.ModelForm):
 
 class ServiceRecordAdmin(admin.ModelAdmin):
     form = ServiceRecordAdminForm
-    list_display = ['start_time', 'end_time']
-    readonly_fields = ['start_time', 'end_time']
+    list_display = ['start_on', 'end_on']
+    readonly_fields = ['start_on', 'end_on']
 
 
 admin.site.register(ServiceRecord, ServiceRecordAdmin)

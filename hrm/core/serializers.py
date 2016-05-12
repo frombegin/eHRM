@@ -46,8 +46,10 @@ class ServiceRecordSerializer(serializers.ModelSerializer):
         model = ServiceRecord
         fields = (
             'id',
-            'start_time',
-            'end_time',
+            'start_on',
+            'end_on',
+            'remark',
+            'company',
         )
 
 

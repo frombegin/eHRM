@@ -66,8 +66,8 @@ def create_installedplugin(**kwargs):
 
 def create_servicerecord(**kwargs):
     defaults = {}
-    defaults["start_time"] = "start_time"
-    defaults["end_time"] = "end_time"
+    defaults["start_at"] = "start_at"
+    defaults["end_at"] = "end_at"
     defaults.update(**kwargs)
     if "company" not in defaults:
         defaults["company"] = create_company()
@@ -233,8 +233,8 @@ class ServiceRecordViewTest(unittest.TestCase):
     def test_create_servicerecord(self):
         url = reverse('app_name_servicerecord_create')
         data = {
-            "start_time": "start_time",
-            "end_time": "end_time",
+            "start_at": "start_at",
+            "end_at": "end_at",
             "company": create_company().id,
         }
         response = self.client.post(url, data=data)
@@ -249,8 +249,8 @@ class ServiceRecordViewTest(unittest.TestCase):
     def test_update_servicerecord(self):
         servicerecord = create_servicerecord()
         data = {
-            "start_time": "start_time",
-            "end_time": "end_time",
+            "start_at": "start_at",
+            "end_at": "end_at",
             "company": create_company().id,
         }
         url = reverse('app_name_servicerecord_update', args=[servicerecord.id, ])
